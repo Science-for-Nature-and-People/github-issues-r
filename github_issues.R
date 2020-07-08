@@ -1,9 +1,21 @@
 #' Github Issues
 #' 
-#' 
+#'@param Owner The owner of the repo
+#'@param Repo The name of the repo 
 #'
-github_issues <- function(Owner, Repo){
-  gh("/repo/:owner/:repo/issues", owner = "Owner", repo = "Repo") %>%
+#'
+#' Inputs need to b in quotes
+
+library(gh)
+library(purrr)
+library(tidyverse)
+
+github_issues = function(Owner, Repo){
+  
+  owner <- Owner
+  repo <- Repo
+  
+  results = gh("/repos/:owner/:repo/issues", owner = owner, repo = repo) %>%
     {
       data.frame(number = map_int(., "number"), #Calls the issue number
                  id = map_int(., "id"), #Calls the issue id
@@ -14,4 +26,5 @@ github_issues <- function(Owner, Repo){
       )
     }
   
+  return(results)
 }
