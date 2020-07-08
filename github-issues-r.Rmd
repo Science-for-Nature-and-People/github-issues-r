@@ -36,8 +36,23 @@ issue_df <- issues %>%
              )
     }
 
-
 ```
 
+
+```{r}
+#Trying to use the gh function on the snapp_wg_scicomp repo which is private.
+
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp_wg_scicomp/issues", owner = "SNAPP", repo = "snapp_wg_scicomp") %>%
+  {
+  data.frame(number = map_int(., "number"), #Calls the issue number
+             id = map_int(., "id"), #Calls the issue id
+             title = map_chr(., "title"), #Calls the title of the issue
+             state = map_chr(., "state"), #States if the issue is open or closed
+             user = map_chr(., c("user", "login")), #The user who created the issue
+             created_at = map_chr(., "created_at") %>% as.Date() #The date the issue was created
+             )
+    }
+  
+```
 
 
