@@ -4,7 +4,9 @@
 #'@param Repo The name of the repo 
 #'
 #'
-#' Inputs need to b in quotes
+#'
+#'  Inputs need to b in quotes
+#'@example github_issues("brunj7", "nceas-r-packages")
 
 library(gh)
 library(purrr)
