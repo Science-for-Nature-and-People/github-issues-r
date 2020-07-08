@@ -18,3 +18,26 @@ library(curl)
 
 ```
 
+```{r}
+
+#Example Code
+
+issues <- gh("/repos/brunj7/nceas-r-packages/issues", owner = "brunj7", repo = "nceas-r-packages")
+
+
+issue_df <- issues %>%
+  {
+  data.frame(number = map_int(., "number"), #Calls the issue number
+             id = map_int(., "id"), #Calls the issue id
+             title = map_chr(., "title"), #Calls the title of the issue
+             state = map_chr(., "state"), #States if the issue is open or closed
+             user = map_chr(., c("user", "login")), #The user who created the issue
+             created_at = map_chr(., "created_at") %>% as.Date() #The date the issue was created
+             )
+    }
+
+
+```
+
+
+
