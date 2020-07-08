@@ -42,6 +42,8 @@ issue_df <- issues %>%
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which is private.
 
+#Not functioning yet
+
 snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp_wg_scicomp/issues", owner = "SNAPP", repo = "snapp_wg_scicomp") %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
