@@ -16,16 +16,22 @@ library(purrr)
 library(tidyr)
 library(curl)
 
+
+library(httr)
+library(jsonlite)
+
 ```
 
 ```{r}
 
+# The Exampe for this comes from https://github.com/jennybc/analyze-github-stuff-with-r
+
 #Example Code
 
-issues <- gh("/repos/brunj7/nceas-r-packages/issues", owner = "brunj7", repo = "nceas-r-packages", state = "all")
+issues_gh <- gh("/repos/brunj7/nceas-r-packages/issues", owner = "brunj7", repo = "nceas-r-packages", state = "all")
 
 
-issue_df <- issues %>%
+issue_gh_df <- issues %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -55,5 +61,44 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp_wg_scicomp/issues", owner = "S
              )
     }
   
+```
+
+```{r}
+# Looking into another method of getting the issues httr
+
+#The exampe for this comes from https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
+
+issues_httr <- GET("https://github.com/brunj7/nceas-r-packages/issues")
+
+str(issues_httr)
+
+```
+
+```{r}
+issues_httr_json <- content(issues_httr, type = "text")
+
+issues_httr_df <- fromJSON(issues_httr_json) #This is causing an error
+
+```
+
+```{r}
+scicomp_issues_httr <- GET("https://github.nceas.ucsb.edu/SNAPP/snapp-wg-scicomp/issues", query = list(state = "all"))
+
+str(scicomp_issues_httr)
+```
+
+```{r}
+scicomp_httr_json <- content(scicomp_issues_httr, type = "text")
+
+scicomp_httr_df <- fromJSON(scicomp_httr_json, flatten = TRUE) #This is giving me an issue
+```
+
+```{r}
+library(httr)
+res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
+           query = list(state = "all", per_page = 100, page = 1))
+jsondata <- content(res, type = "text")
+library(jsonlite)
+github_df <- fromJSON(jsondata, flatten = TRUE)
 ```
 
