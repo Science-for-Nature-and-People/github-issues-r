@@ -17,6 +17,13 @@ github_issues = function(Owner, Repo){
   owner <- Owner
   repo <- Repo
   
+  map_chr_hack <- function(.x, .f, ...) {
+    map(.x, .f, ...) %>%
+      map_if(is.null, ~ NA_character_) %>%
+      flatten_chr()
+  }
+  
+  
   results = gh("/repos/:owner/:repo/issues", owner = owner, repo = repo) %>%
     {
       data.frame(number = map_int(., "number"), #Calls the issue number
@@ -24,7 +31,9 @@ github_issues = function(Owner, Repo){
                  title = map_chr(., "title"), #Calls the title of the issue
                  state = map_chr(., "state"), #States if the issue is open or closed
                  user = map_chr(., c("user", "login")), #The user who created the issue
-                 created_at = map_chr(., "created_at") %>% as.Date() #The date the issue was created
+                 created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
+                 closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
+                 n_comments = map_int(., "comments") #This is the number of comments in an issue 
       )
     }
   
