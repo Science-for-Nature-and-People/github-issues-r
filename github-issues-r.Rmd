@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, message=FALSE}
 library(tidyverse)
 library(gh)
 library(purrr)
@@ -24,7 +24,7 @@ library(jsonlite)
 
 ```{r}
 
-# The Exampe for this comes from https://github.com/jennybc/analyze-github-stuff-with-r
+# The Example for this comes from https://github.com/jennybc/analyze-github-stuff-with-r
 
 #Example Code
 
@@ -37,7 +37,7 @@ map_chr_hack <- function(.x, .f, ...) {
     flatten_chr()
 }
 
-issue_gh_df <- issues %>%
+issue_gh_df <- issues_gh %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -78,7 +78,7 @@ issue_gh_df <- issues %>%
 
 # The a walk through of the code is available from https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
 
-issues_httr <- GET("https://github.com/brunj7/nceas-r-packages/issues")
+issues_httr <- GET("https://api.github.com/repos/brunj7/nceas-r-packages/issues")
 
 #(issues_httr)
 
@@ -94,11 +94,11 @@ issues_httr_df <- fromJSON(issues_httr_json) #This is causing an error
 ```{r}
 #Example of using the httr function from blog https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
 
-library(httr)
-res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
-           query = list(state = "all", per_page = 100, page = 1))
-jsondata <- content(res, type = "text")
-library(jsonlite)
-github_df <- fromJSON(jsondata, flatten = TRUE)
+# library(httr)
+# res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
+#            query = list(state = "all", per_page = 100, page = 1))
+# jsondata <- content(res, type = "text")
+# library(jsonlite)
+# github_df <- fromJSON(jsondata, flatten = TRUE)
 ```
 
