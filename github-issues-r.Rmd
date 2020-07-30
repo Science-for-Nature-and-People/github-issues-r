@@ -80,7 +80,7 @@ issue_gh_df <- issues %>%
 
 issues_httr <- GET("https://github.com/brunj7/nceas-r-packages/issues")
 
-str(issues_httr)
+#(issues_httr)
 
 issues_httr_json <- content(issues_httr, type = "text")
 
