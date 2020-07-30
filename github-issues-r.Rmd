@@ -78,7 +78,7 @@ issue_gh_df <- issues_gh %>%
 
 # The a walk through of the code is available from https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
 
-issues_httr <- GET("https://github.com/brunj7/nceas-r-packages/issues")
+issues_httr <- GET("https://api.github.com/repos/brunj7/nceas-r-packages/issues")
 
 str(issues_httr)
 
