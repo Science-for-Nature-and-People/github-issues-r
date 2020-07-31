@@ -80,7 +80,7 @@ gh_issues_private_df <- gh_issues_private %>%
 
 #Not functioning yet
 
-snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea", state = "all")  %>%
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea", state = "all", .limit = "all")  %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -121,7 +121,7 @@ issues_httr_df <- fromJSON(issues_httr_json, flatten = TRUE) #This is causing an
 
 # library(httr)
 # res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
-            query = list(state = "all", per_page = 100, page = 1))
+#            query = list(state = "all", per_page = 100, page = 1))
 # jsondata <- content(res, type = "text")
 # library(jsonlite)
 # github_df <- fromJSON(jsondata, flatten = TRUE)
