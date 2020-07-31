@@ -55,7 +55,7 @@ issue_gh_df <- issues_gh %>%
 ```{r}
 # This section will be to try to access a private repo
 
-gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", owner = "Science-for-Nature-and People", repo = "github-issues-r", state = "all", .token = "7c5d4c32ded27c63bc30c8837eef8247347c8495")
+gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", owner = "Science-for-Nature-and People", repo = "github-issues-r", state = "all", token = NULL)
 
 gh_issues_private_df <- gh_issues_private %>%
   {
@@ -80,8 +80,8 @@ gh_issues_private_df <- gh_issues_private %>%
 
 #Not functioning yet
 
-#snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp_wg_scicomp/issues", username = "robertsaldivar", type = "private", page = 1) # %>%
- # {
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api.url = "https://api.githug.nceas.ucsb.edu", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "7c5d4c32ded27c63bc30c8837eef8247347c8495")  #%>%
+  #{
   #data.frame(number = map_int(., "number"), #Calls the issue number
    #          id = map_int(., "id"), #Calls the issue id
     #         title = map_chr(., "title"), #Calls the title of the issue
