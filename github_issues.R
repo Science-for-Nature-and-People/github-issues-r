@@ -12,11 +12,10 @@ library(gh)
 library(purrr)
 library(tidyverse)
 
-github_issues = function(Owner, Repo, Token = NULL){
+github_issues = function(Owner, Repo, Token = NULL, URL = NULL, State = "all", Limit = "all"){
   
   owner <- Owner
   repo <- Repo
-  token <- Token
   
   map_chr_hack <- function(.x, .f, ...) {
     map(.x, .f, ...) %>%
@@ -25,7 +24,7 @@ github_issues = function(Owner, Repo, Token = NULL){
   }
   
   
-  results = gh("/repos/:owner/:repo/issues", owner = owner, repo = repo, .token = token) %>%
+  results = gh("/repos/:owner/:repo/issues", owner = owner, repo = repo, .token = Token, .api_url = URL, state = State, .limit = Limit) %>%
     {
       data.frame(number = map_int(., "number"), #Calls the issue number
                  id = map_int(., "id"), #Calls the issue id
