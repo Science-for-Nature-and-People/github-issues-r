@@ -80,18 +80,18 @@ gh_issues_private_df <- gh_issues_private %>%
 
 #Not functioning yet
 
-snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea")  #%>%
-  #{
-  #data.frame(number = map_int(., "number"), #Calls the issue number
-   #          id = map_int(., "id"), #Calls the issue id
-    #         title = map_chr(., "title"), #Calls the title of the issue
-     #        state = map_chr(., "state"), #States if the issue is open or closed
-      #       user = map_chr(., c("user", "login")), #The user who created the issue
-       #      created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
-        #     closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
-         #    n_comments = map_int(., "comments") #This is the number of comments in an issue #The date the issue was created
-          #   )
-    #}
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea")  %>%
+  {
+  data.frame(number = map_int(., "number"), #Calls the issue number
+             id = map_int(., "id"), #Calls the issue id
+             title = map_chr(., "title"), #Calls the title of the issue
+             state = map_chr(., "state"), #States if the issue is open or closed
+             user = map_chr(., c("user", "login")), #The user who created the issue
+             created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
+             closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
+             n_comments = map_int(., "comments") #This is the number of comments in an issue #The date the issue was created
+             )
+    }
   
 ```
 
