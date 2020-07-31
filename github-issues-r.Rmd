@@ -76,11 +76,11 @@ gh_issues_private_df <- gh_issues_private %>%
 
 
 ```{r}
-#Trying to use the gh function on the snapp_wg_scicomp repo which is private.
+#Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
 
 #Not functioning yet
 
-snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api.url = "https://api.githug.nceas.ucsb.edu", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "7c5d4c32ded27c63bc30c8837eef8247347c8495")  #%>%
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea")  #%>%
   #{
   #data.frame(number = map_int(., "number"), #Calls the issue number
    #          id = map_int(., "id"), #Calls the issue id
@@ -94,6 +94,7 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api.url =
     #}
   
 ```
+
 
 ```{r}
 # Looking into another method of getting the issues httr
