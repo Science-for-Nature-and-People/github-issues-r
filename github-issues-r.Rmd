@@ -52,6 +52,18 @@ issue_gh_df <- issues_gh %>%
 
 ```
 
+```{r}
+# This section will be to try to access a private repo
+
+gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", owner = "Science-for-Nature-and People", repo = "github-issues-r", state = "all", .token = "7c5d4c32ded27c63bc30c8837eef8247347c8495")
+
+gh_issues_private_df <- gh_issues_private %>%
+  
+
+
+```
+
+
 
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which is private.
@@ -84,7 +96,7 @@ issues_httr <- GET("https://api.github.com/repos/brunj7/nceas-r-packages/issues"
 
 issues_httr_json <- content(issues_httr, type = "text")
 
-issues_httr_df <- fromJSON(issues_httr_json) #This is causing an error
+issues_httr_df <- fromJSON(issues_httr_json, flatten = TRUE) #This is causing an error
 #Error: lexical error: invalid char in json text. <!DOCTYPE html> <html lang="en" (right here) ------^
 
 ```
@@ -96,7 +108,7 @@ issues_httr_df <- fromJSON(issues_httr_json) #This is causing an error
 
 # library(httr)
 # res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
-#            query = list(state = "all", per_page = 100, page = 1))
+            query = list(state = "all", per_page = 100, page = 1))
 # jsondata <- content(res, type = "text")
 # library(jsonlite)
 # github_df <- fromJSON(jsondata, flatten = TRUE)
