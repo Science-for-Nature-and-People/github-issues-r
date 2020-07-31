@@ -80,7 +80,7 @@ gh_issues_private_df <- gh_issues_private %>%
 
 #Not functioning yet
 
-snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea")  %>%
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea", state = "all")  %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -92,7 +92,9 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url =
              n_comments = map_int(., "comments") #This is the number of comments in an issue #The date the issue was created
              )
     }
-  
+#currently this is limiting to 30 observations  
+
+
 ```
 
 
