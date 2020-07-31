@@ -55,7 +55,12 @@ issue_gh_df <- issues_gh %>%
 ```{r}
 # This section will be to try to access a private repo
 
-gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", owner = "Science-for-Nature-and People", repo = "github-issues-r", state = "all", token = NULL)
+gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", 
+                        owner = "Science-for-Nature-and People", 
+                        repo = "github-issues-r", 
+                        state = "all", 
+                        .token = NULL # Token is set to NULL because GITHUB_PAT has been set in my .Renviron, if someone uses this code without it set it will fail.
+                        )
 
 gh_issues_private_df <- gh_issues_private %>%
   {
@@ -78,9 +83,16 @@ gh_issues_private_df <- gh_issues_private %>%
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
 
-#Not functioning yet
 
-snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url = "https://github.nceas.ucsb.edu/api/v3", owner = "SNAPP", repo = "snapp-wg-scicomp", .token = "6ee1afe72945dcffa5ccb1fcac57816927e5c5ea", state = "all", .limit = "all")  %>%
+#This is currently not working for me because the token is not properly set 
+
+snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
+                              .api_url = "https://github.nceas.ucsb.edu/api/v3", 
+                              owner = "SNAPP", 
+                              repo = "snapp-wg-scicomp", 
+                              .token = NULL, 
+                              state = "all", 
+                              .limit = "all")  %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -91,9 +103,7 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", .api_url =
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments") #This is the number of comments in an issue #The date the issue was created
              )
-    }
-#currently this is limiting to 30 observations  
-
+  }
 
 ```
 
