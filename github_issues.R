@@ -1,9 +1,11 @@
 #' Github Issues
 #' 
-#'@param Owner The owner of the repo
-#'@param Repo The name of the repo 
-#'
-#'
+#'@param owner The owner of the repo
+#'@param repo The name of the repo
+#'@param token The user's personal access token for github. This is needed if accessing a private repo, or a github enterprise repo. If this is set in the user's .Renviron it can be left as NULL 
+#'@param url The url to asccess a github enterprise repo
+#'@param state Decides what type of issue to pull: "open", "closed", "all"
+#'@parma limit How many issues are pulled
 #'
 #'  Inputs need to b in quotes
 #'@example github_issues("brunj7", "nceas-r-packages")
