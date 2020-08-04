@@ -15,6 +15,7 @@ library(gh)
 library(purrr)
 library(tidyr)
 library(curl)
+library(keyring) # Look into this package more to access multiple tokens for the gh package to use.
 
 
 library(httr)
@@ -61,6 +62,7 @@ gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/is
                         state = "all", 
                         .token = NULL # Token is set to NULL because GITHUB_PAT has been set in my .Renviron, if someone uses this code without it set it will fail.
                         )
+                          #keyring::key_get("Token", keyring = "Git_Credentials") 
 
 gh_issues_private_df <- gh_issues_private %>%
   {
@@ -82,16 +84,18 @@ gh_issues_private_df <- gh_issues_private %>%
 
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
-
-
-#This is currently not working for me because the token is not properly set 
+.
 
 snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
                               .api_url = "https://github.nceas.ucsb.edu/api/v3", 
                               owner = "SNAPP", 
                               repo = "snapp-wg-scicomp", 
-                              .token = NULL, 
-                              state = "all", 
+                              
+                              #For this section of code to work the token from github enterprise needs to have been set in a keyring named "Git_Credentials" and name the value "Enterprise token"
+                              .token = keyring::key_get("Enterprise_Token", keyring = "Git_Credentials"), 
+                              
+                              
+                              state = "all",
                               .limit = "all")  %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
@@ -113,11 +117,11 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
 
 # The a walk through of the code is available from https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
 
-issues_httr <- GET("https://api.github.com/repos/brunj7/nceas-r-packages/issues")
+issues_httr <- GET
+issues_httr_json <- content(issues_httr, type = "text")("https://api.github.com/repos/brunj7/nceas-r-packages/issues")
 
 #(issues_httr)
 
-issues_httr_json <- content(issues_httr, type = "text")
 
 issues_httr_df <- fromJSON(issues_httr_json, flatten = TRUE) #This is causing an error
 #Error: lexical error: invalid char in json text. <!DOCTYPE html> <html lang="en" (right here) ------^
