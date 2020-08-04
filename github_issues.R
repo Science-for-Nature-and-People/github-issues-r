@@ -5,9 +5,12 @@
 #'@param token The user's personal access token for github. This is needed if accessing a private repo, or a github enterprise repo. If this is set in the user's .Renviron it can be left as NULL 
 #'@param url The url to asccess a github enterprise repo
 #'@param state Decides what type of issue to pull: "open", "closed", "all"
-#'@parma limit How many issues are pulled
+#'@param limit How many issues are pulled
 #'
-#'  Inputs need to b in quotes
+#'@note Inputs need to be in quotes
+#'
+#'@references Here is a link on generating a token from github: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+#'
 #'@example github_issues("brunj7", "nceas-r-packages")
 
 library(gh)
