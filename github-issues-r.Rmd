@@ -86,7 +86,7 @@ gh_issues_private_df <- gh_issues_private %>%
 
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
-.
+
 
 snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
                               .api_url = "https://github.nceas.ucsb.edu/api/v3", 
