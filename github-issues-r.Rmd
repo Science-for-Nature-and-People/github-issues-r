@@ -56,6 +56,8 @@ issue_gh_df <- issues_gh %>%
 ```{r}
 # This section will be to try to access a private repo
 
+#Here is a link on generating a token from github: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
 gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", 
                         owner = "Science-for-Nature-and People", 
                         repo = "github-issues-r", 
