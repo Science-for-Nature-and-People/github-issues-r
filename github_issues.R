@@ -19,9 +19,6 @@ library(tidyverse)
 
 github_issues = function(owner, repo, token = NULL, url = NULL, state = "all", limit = "all"){
   
-  owner <- owner
-  repo <- repo
-  
   map_chr_hack <- function(.x, .f, ...) {
     map(.x, .f, ...) %>%
       map_if(is.null, ~ NA_character_) %>%
