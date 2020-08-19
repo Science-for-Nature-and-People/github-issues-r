@@ -115,7 +115,6 @@ gh_issues_private_df <- gh_issues_private %>%
 ```
 
 
-
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
 
@@ -136,11 +135,22 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              id = map_int(., "id"), #Calls the issue id
              title = map_chr(., "title"), #Calls the title of the issue
              state = map_chr(., "state"), #States if the issue is open or closed
-             user = map_chr(., c("user", "login")), #The user who created the issue
+             creator = map_chr(., c("user", "login")), #The user who created the issue
              created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
-             n_comments = map_int(., "comments") #This is the number of comments in an issue #The date the issue was created
+             n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
+             labels = map_chr_hack(., "label") #This will return the label the issue has been assigned Currently not working properly
              )
+    
   }
 
 ```
+
+```{r}
+#this will filter issues that were created between July 1st 2019 to jun 30th 2020
+
+snapp_wg_scicomp_issues_filtered <- snapp_wg_scicomp_issues %>%
+  filter(created_at > "2019-07-01" & created_at < "2020-06-30")
+
+```
+
