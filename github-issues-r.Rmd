@@ -10,16 +10,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r, message=FALSE}
+
 library(tidyverse)
 library(gh)
 library(purrr)
 library(tidyr)
 library(curl)
-library(keyring) # Look into this package more to access multiple tokens for the gh package to use.
-
-
-library(httr)
-library(jsonlite)
+library(keyring)
 
 ```
 
