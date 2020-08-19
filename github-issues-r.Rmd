@@ -112,34 +112,3 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
   }
 
 ```
-
-
-```{r}
-# Looking into another method of getting the issues httr
-
-# The a walk through of the code is available from https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
-
-issues_httr <- GET
-issues_httr_json <- content(issues_httr, type = "text")("https://api.github.com/repos/brunj7/nceas-r-packages/issues")
-
-#(issues_httr)
-
-
-issues_httr_df <- fromJSON(issues_httr_json, flatten = TRUE) #This is causing an error
-#Error: lexical error: invalid char in json text. <!DOCTYPE html> <html lang="en" (right here) ------^
-
-```
-
-
-
-```{r}
-#Example of using the httr function from blog https://blog.exploratory.io/analyzing-issue-data-with-github-rest-api-63945017dedc
-
-# library(httr)
-# res <- GET("https://api.github.com/repos/hadley/dplyr/issues", 
-#            query = list(state = "all", per_page = 100, page = 1))
-# jsondata <- content(res, type = "text")
-# library(jsonlite)
-# github_df <- fromJSON(jsondata, flatten = TRUE)
-```
-
