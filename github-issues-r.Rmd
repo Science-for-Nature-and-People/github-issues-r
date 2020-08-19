@@ -65,14 +65,14 @@ issue_gh_df <- issues_gh %>%
 
 
 #This is going to create a new keyring to store tokens
-keyring::keyring_create("Example_Keyring") #this only needs to be run once
+#keyring::keyring_create("Example_Keyring") #this only needs to be run once
 
 
 #This sets a password in the keyring
-keyring::key_set_with_value(service= "Key", #This is what will be called when using the keyring to access the stored token
-  password= "Password", # this is the password/token that is being saved
-  keyring= "Example_Keyring" #This is the keyring that the password is being associated with
-  )
+#keyring::key_set_with_value(service= "Key", #This is what will be called when using the keyring to access the stored token
+#  password= "Password", # this is the password/token that is being saved
+#  keyring= "Example_Keyring" #This is the keyring that the password is being associated with
+#  )
 
 
 #Example of how to use keyring with gh
