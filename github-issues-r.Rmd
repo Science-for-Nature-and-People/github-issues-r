@@ -51,6 +51,8 @@ issue_gh_df <- issues_gh %>%
 ```
 
 
+
+This demonstrates how to store a token/password/key in the keyring package
 ```{r}
 #This section will demonstrate how to use the keyring package to store tokens.
 
@@ -139,7 +141,7 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
-             labels = map_chr_hack(., "label") #This will return the label the issue has been assigned Currently not working properly
+             #labels = map_chr_hack(., "labels") #This will return the label the issue has been assigned Currently not working properly
              )
     
   }
