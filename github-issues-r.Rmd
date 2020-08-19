@@ -53,10 +53,38 @@ issue_gh_df <- issues_gh %>%
 
 ```
 
+
+```{r}
+#This section will demonstrate how to use the keyring package to store tokens.
+
+#Keyring allows the user to set multiple tokens without needing to set them in the environment
+
+#Here is a link to a youtube video demonstrating how to use the keyring package: https://www.youtube.com/watch?v=Q8Cilx-MOsU
+
+#Here is a link demondstrating how to get tokens from github: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
+
+#This is going to create a new keyring to store tokens
+keyring::keyring_create("Example_Keyring") #this only needs to be run once
+
+
+#This sets a password in the keyring
+keyring::key_set_with_value(service= "Key", #This is what will be called when using the keyring to access the stored token
+  password= "Password", # this is the password/token that is being saved
+  keyring= "Example_Keyring" #This is the keyring that the password is being associated with
+  )
+
+
+#Example of how to use keyring with gh
+#gh("/repos/:user/:repo", .token = keyring::key_get(service = "Key", keyring = "Example_Keyring"))
+
+```
+
+
 ```{r}
 # This section will be to try to access a private repo
 
-#Here is a link on generating a token from github: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
 
 gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/issues", 
                         owner = "Science-for-Nature-and People", 
