@@ -78,6 +78,13 @@ issue_gh_df <- issues_gh %>%
 #Example of how to use keyring with gh
 #gh("/repos/:user/:repo", .token = keyring::key_get(service = "Key", keyring = "Example_Keyring"))
 
+#Alternatively you can store token in .renviron by
+#usethis::edit_r_environ()
+#GITHUB_PAT = password
+
+#Here is a good reference for setting .renviron: https://rstats.wtf/r-startup.html
+
+
 ```
 
 
