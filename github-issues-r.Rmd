@@ -109,7 +109,8 @@ gh_issues_private_df <- gh_issues_private %>%
              opener = map_chr(., c("user", "login")), #The user who created the issue
              created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
-             n_comments = map_int(., "comments") #This is the number of comments in an issue
+             n_comments = map_int(., "comments"), #This is the number of comments in an issue
+             labels = walk(., c("labels", "[[]]", "name"))
              )
     }
 
@@ -117,9 +118,28 @@ gh_issues_private_df <- gh_issues_private %>%
 ```
 
 
+
+```{r}
+
+#this is so I can look at how the repo is originally being pulled
+
+snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
+                              .api_url = "https://github.nceas.ucsb.edu/api/v3", 
+                              owner = "SNAPP", 
+                              repo = "snapp-wg-scicomp", 
+                              
+                              #For this section of code to work the token from github enterprise needs to have been set in a keyring named "Git_Credentials" and name the value "Enterprise token"
+                              .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials"), 
+                              
+                              
+                              state = "all",
+                              .limit = "all")
+
+```
+
+
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
-
 
 snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
                               .api_url = "https://github.nceas.ucsb.edu/api/v3", 
@@ -141,10 +161,9 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
-             #labels = map_chr_hack(., "labels") #This will return the label the issue has been assigned Currently not working properly
+             labels = map_chr_hack(., c("labels", "{name}")) #This will return the label the issue has been assigned Currently not working properly because there is a level between labels and name that I am having trouble calling Right now it only retuns NA
              )
-    
-  }
+  } 
 
 ```
 
