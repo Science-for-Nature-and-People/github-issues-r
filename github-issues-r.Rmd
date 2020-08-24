@@ -134,7 +134,7 @@ m1 <- map(snapp_wg_scicomp_issues_proto, "labels")
 
 m3 <- snapp_wg_scicomp_issues_proto[[1]]$labels[[1]]$name
 
-snapp_wg_scicomp_issues_proto[[2]]$labels %>% map(., c('[', "name"))
+snapp_wg_scicomp_issues_proto[[2]]$labels %>% map(., c('[[', "name")) #returns null values
 
 ```
 
