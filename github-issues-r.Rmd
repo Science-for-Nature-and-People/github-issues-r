@@ -134,11 +134,8 @@ m1 <- map(snapp_wg_scicomp_issues_proto, "labels")
 
 m3 <- snapp_wg_scicomp_issues_proto[[1]]$labels[[1]]$name
 
+snapp_wg_scicomp_issues_proto[[2]]$labels %>% map(., c('[', "name"))
 
-
-m4 <- for(i in 1:length(snapp_wg_scicomp_issues_proto)) {
-  map(snapp_wg_scicomp_issues_proto, "labels")
-}
 ```
 
 
@@ -165,14 +162,12 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
              title = map_chr(., "title"), #Calls the title of the issue
-             labels = map(., "labels") %>% stringr::str_flatten(";")
-             #This will return the label the issue has been assigned Currently not working properly because there is a level between labels and name that I am having trouble calling Right now it only retuns NA
+             labels = map(., "labels") %>% stringr::str_flatten(";")# Currently returning a list of everything in the labels list for the entire issues list 
              
              )
   } 
 
 ```
-
 
 
 
