@@ -100,6 +100,12 @@ gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/is
                         .token = NULL # Token is set to NULL because GITHUB_PAT has been set in my .Renviron, if someone uses this code without it set it will fail.
                           #keyring::key_get("Github_Token", keyring = "Git_Credentials") 
                         )
+
+gh_issues_private_df <- gh_issues_private %>%
+  {
+    data.frame(labels = map_dfr(., "labels"))
+  }
+
                         
 
 ```
@@ -119,28 +125,44 @@ snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials"), 
                               
                               
-                              state = "all",
-                              .limit = "all") 
+                              state = "open",
+                              .limit = "all"
+                              )
+
+snapp_wg_scicomp_issues_proto_label <- gh("/repos/SNAPP/snapp-wg-scicomp/labels", 
+                              .api_url = "https://github.nceas.ucsb.edu/api/v3", 
+                              owner = "SNAPP", 
+                              repo = "snapp-wg-scicomp", 
+                              
+                              #For this section of code to work the token from github enterprise needs to have been set in a keyring named "Git_Credentials" and name the value "Enterprise token"
+                              .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials")
+                              )
 
 
-modify_depth_hack <- function(.x, .depth, .f, ...){
-  modify_depth(.x, .depth, .f, ...) %>%
-    modify_if(is.null, ~ NA_character_)
-}
 
-m1 <- map(snapp_wg_scicomp_issues_proto, "labels")
 
-#m2 <- map_chr_hack(snapp_wg_scicomp_issues_proto, "labels")
 
-m3 <- snapp_wg_scicomp_issues_proto[[1]]$labels[[1]]$name
 
-snapp_wg_scicomp_issues_proto[[2]]$labels %>% map(., c('[[', "name")) #returns null values
+
+m1 <- snapp_wg_scicomp_issues_proto[[2]]$labels[[2]]$name
+
+m2 <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr(., "name") %>% as.data.frame()
+
+
+
+snapp_wg_scicomp_issues_proto_label <- snapp_wg_scicomp_issues_proto %>%
+  {
+  data.frame(labels = map_dfr(., "labels"))
+  }
+
 
 ```
 
 
 ```{r}
 #Trying to use the gh function on the snapp_wg_scicomp repo which a github enterprise repo.
+
+
 
 snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
                               .api_url = "https://github.nceas.ucsb.edu/api/v3", 
@@ -152,7 +174,9 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               
                               
                               state = "all",
-                              .limit = "all")  %>%
+                              .limit = "all")  
+
+snapp_wg_scicomp_issues_df <- snapp_wg_scicomp_issues_proto %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -162,8 +186,7 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
              title = map_chr(., "title"), #Calls the title of the issue
-             labels = map(., "labels") %>% stringr::str_flatten(";")# Currently returning a list of everything in the labels list for the entire issues list 
-             
+             labels = map(., "labels"[[1]])  # Currently returning a list of everything in the labels list for the "entire issues list
              )
   } 
 
@@ -176,6 +199,12 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
 
 snapp_wg_scicomp_issues_filtered <- snapp_wg_scicomp_issues %>%
   filter(created_at > "2019-07-01" & created_at < "2020-06-30")
+
+```
+
+```{r}
+#This part will count the number of issues per working group
+
 
 ```
 
