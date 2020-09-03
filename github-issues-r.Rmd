@@ -35,6 +35,12 @@ map_chr_hack <- function(.x, .f, ...) {
     flatten_chr()
 }
 
+map_dfr_hack <- function(.x, .f, ..., .id = NULL) {
+  map(.x, .f, ...,) %>%
+    map_if(is.null, ~ NA_character_) %>%
+    flatten_dfr()
+}
+
 
 
 issue_gh_df <- issues_gh %>%
@@ -173,10 +179,12 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
              title = map_chr(., "title"), #Calls the title of the issue
-             labels1 = map_dfr(., ~.$"labels"[1])#, # gives everything under the first label
-             #labels2 = map_dfr(., ~.$"labels"[2]) # inaccurate currently if the issue does not have a second label it will go to the next issue with a second label and repeat until finished
+             labels1 = map_dfr(., ~.$"labels"[1]), # gives everything under the first label
+             labels2 = map_dfr(., ~.$"labels"[2]) # inaccurate currently if the issue does not have a second label it will go to the next issue with a second label and repeat until finished
              )
-  } 
+  } %>% 
+  select("number", "id", "title", "creator", "state", "created_at", "closed_at", "labels1.name", "labels2.name", "n_comments")
+
 
 ```
 
@@ -193,7 +201,7 @@ snapp_wg_scicomp_issues_filtered <- snapp_wg_scicomp_issues %>%
 ```{r}
 #This part will count the number of issues per working group
 
-
+count(snapp_wg_scicomp_issues_filtered, snapp_wg_scicomp_issues_filtered$labels1.name)
 
 ```
 
