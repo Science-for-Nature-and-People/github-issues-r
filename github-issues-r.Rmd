@@ -103,10 +103,10 @@ gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/is
 
 gh_issues_private_df <- gh_issues_private %>%
   {
-    data.frame(labels = map_dfr(., "labels"))
+    data.frame(labels = map_dfr(., ~ .$"labels"[1])) %>% select("labels.name")
   }
 
-                        
+str(gh_issues_private)                        
 
 ```
 
@@ -125,7 +125,7 @@ snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials"), 
                               
                               
-                              state = "open",
+                              state = "all",
                               .limit = "all"
                               )
 
@@ -139,20 +139,17 @@ snapp_wg_scicomp_issues_proto_label <- gh("/repos/SNAPP/snapp-wg-scicomp/labels"
                               )
 
 
-
-
-
-
-
 m1 <- snapp_wg_scicomp_issues_proto[[2]]$labels[[2]]$name
 
 m2 <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr(., "name") %>% as.data.frame()
 
+m3 <- map(snapp_wg_scicomp_issues_proto, ~.x"labels"[[1]])
 
+m4 <- map_depth(snapp_wg_scicomp_issues_proto, .depth = 3, .f = "name")
 
 snapp_wg_scicomp_issues_proto_label <- snapp_wg_scicomp_issues_proto %>%
   {
-  data.frame(labels = map_dfr(., "labels"))
+  data.frame(labels = map_dfr(., "labels"[[1]]))
   }
 
 
@@ -173,10 +170,8 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials"), 
                               
                               
-                              state = "all",
-                              .limit = "all")  
-
-snapp_wg_scicomp_issues_df <- snapp_wg_scicomp_issues_proto %>%
+                              state = "open",
+                              .limit = "all")   %>%
   {
   data.frame(number = map_int(., "number"), #Calls the issue number
              id = map_int(., "id"), #Calls the issue id
@@ -186,7 +181,7 @@ snapp_wg_scicomp_issues_df <- snapp_wg_scicomp_issues_proto %>%
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
              title = map_chr(., "title"), #Calls the title of the issue
-             labels = map(., "labels"[[1]])  # Currently returning a list of everything in the labels list for the "entire issues list
+             labels1 = map_dfr(., ~.$"labels"[1]) # gives everything under the first label
              )
   } 
 
