@@ -121,25 +121,17 @@ snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials"), 
                               
                               
-                              state = "open",
+                              state = "all",
                               .limit = "all"
                               )
 
-snapp_wg_scicomp_issues_proto_label <- gh("/repos/SNAPP/snapp-wg-scicomp/labels", 
-                              .api_url = "https://github.nceas.ucsb.edu/api/v3", 
-                              owner = "SNAPP", 
-                              repo = "snapp-wg-scicomp", 
-                              
-                              #For this section of code to work the token from github enterprise needs to have been set in a keyring named "Git_Credentials" and name the value "Enterprise token"
-                              .token = keyring::key_get("Github_Enterprise_Token", keyring = "Git_Credentials")
-                              )
 
+m1 <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr_hack(., "name") %>% as.data.frame()
 
-snapp_wg_scicomp_issues_proto_label <- snapp_wg_scicomp_issues_proto %>%
-  {
-  data.frame(labels = map_dfr(., ~ .$"labels"[1]))
-  }
+m1_graph <- ggplot(m1, aes(x = .)) +
+  geom_bar()
 
+m1_graph
 
 ```
 
@@ -192,6 +184,11 @@ snapp_wg_scicomp_issues_filtered <- snapp_wg_scicomp_issues %>%
 #This part will count the number of issues per working group
 
 count(snapp_wg_scicomp_issues_filtered, snapp_wg_scicomp_issues_filtered$labels1.name)
+
+g <- ggplot(snapp_wg_scicomp_issues_filtered, aes(x = labels1.name)) +
+  geom_bar()
+
+g
 
 ```
 
