@@ -35,7 +35,8 @@ github_issues = function(owner, repo, token = NULL, url = NULL, state = "all", l
                  user = map_chr(., c("user", "login")), #The user who created the issue
                  created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
                  closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
-                 n_comments = map_int(., "comments") #This is the number of comments in an issue 
+                 n_comments = map_int(., "comments"), #This is the number of comments in an issue 
+                 labels = map_dfr(., ~.$"labels"[1]) #this gets all of the label information for an issue
       )
     }
   
