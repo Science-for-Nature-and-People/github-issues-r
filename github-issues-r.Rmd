@@ -17,6 +17,7 @@ library(purrr)
 library(tidyr)
 library(curl)
 library(keyring)
+library(plotly)
 
 ```
 
@@ -178,17 +179,23 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
 snapp_wg_scicomp_issues_filtered <- snapp_wg_scicomp_issues %>%
   filter(created_at > "2019-07-01" & created_at < "2020-06-30")
 
+snapp_wg_scicomp_issues_filtered_labels <- snapp_wg_scicomp_issues_filtered %>%
+  stack(select = c("labels1.name", "labels2.name"))
+  
+
 ```
 
 ```{r}
 #This part will count the number of issues per working group
 
-count(snapp_wg_scicomp_issues_filtered, snapp_wg_scicomp_issues_filtered$labels1.name)
+count(snapp_wg_scicomp_issues_filtered_labels, snapp_wg_scicomp_issues_filtered_labels$values)
 
-g <- ggplot(snapp_wg_scicomp_issues_filtered, aes(x = labels1.name)) +
-  geom_bar()
+snapp_Scicomp_issues_plot <- ggplot(snapp_wg_scicomp_issues_filtered_labels, aes(x = values)) +
+  geom_bar() + 
+  xlab("Labels") +
+  ylab("Count")
 
-g
+snapp_Scicomp_issues_plot
 
 ```
 
