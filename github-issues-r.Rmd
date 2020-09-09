@@ -102,7 +102,8 @@ gh_issues_private <- gh("/repos/Science-for-Nature-and-People/github-issues-r/is
 
 gh_issues_private_df <- gh_issues_private %>%
   {
-    data.frame(labels = map_dfr(., ~ .$"labels"[1])) %>% select("labels.name")
+    data.frame(labels = map_dfr(., ~ .$"labels"[1])
+    )
   }
 
 ```
@@ -130,7 +131,10 @@ snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
 m1 <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr_hack(., "name") %>% as.data.frame()
 
 m1_graph <- ggplot(m1, aes(x = .)) +
-  geom_bar()
+  geom_bar()+ 
+  xlab("Labels") +
+  ylab("Count") +
+  theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 0.5))
 
 m1_graph
 
@@ -162,8 +166,8 @@ snapp_wg_scicomp_issues <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
              closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
              n_comments = map_int(., "comments"), #This is the number of comments in an issue #The date the issue was created
              title = map_chr(., "title"), #Calls the title of the issue
-             labels1 = map_df(., ~.$"labels"[1]), # gives everything under the first label
-             labels2 = map_df(., ~.$"labels"[2]) # inaccurate currently if the issue does not have a second label it will go to the next issue with a second label and repeat until finished
+             labels1 = map_dfr(., ~.$"labels"[1]), # gives everything under the first label
+             labels2 = map_dfr(., ~.$"labels"[2]) # inaccurate currently if the issue does not have a second label it will go to the next issue with a second label and repeat until finished
              )
   } %>% 
   select("number", "id", "title", "creator", "state", "created_at", "closed_at", "labels1.name", "labels2.name", "n_comments")
@@ -193,9 +197,10 @@ count(snapp_wg_scicomp_issues_filtered_labels, snapp_wg_scicomp_issues_filtered_
 snapp_Scicomp_issues_plot <- ggplot(snapp_wg_scicomp_issues_filtered_labels, aes(x = values)) +
   geom_bar() + 
   xlab("Labels") +
-  ylab("Count")
+  ylab("Count") +
+  theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 0.5))
 
-snapp_Scicomp_issues_plot
+snapp_Scicomp_issues_plot # Graph needs to be cleaned up
 
 ```
 
