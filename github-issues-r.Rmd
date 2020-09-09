@@ -128,15 +128,15 @@ snapp_wg_scicomp_issues_proto <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
                               )
 
 
-m1 <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr_hack(., "name") %>% as.data.frame()
+proto_map <- map(snapp_wg_scicomp_issues_proto, "labels") %>% flatten() %>% map_chr_hack(., "name") %>% as.data.frame()
 
-m1_graph <- ggplot(m1, aes(x = .)) +
+proto_graph <- ggplot(m1, aes(x = .)) +
   geom_bar()+ 
   xlab("Labels") +
   ylab("Count") +
   theme(axis.text.x = element_text(angle = 90, hjust=1, vjust = 0.5))
 
-m1_graph
+proto_graph
 
 ```
 
