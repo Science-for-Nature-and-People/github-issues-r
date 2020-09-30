@@ -32,7 +32,7 @@ github_issues = function(owner, repo, token = NULL, url = NULL, state = "all", l
                  id = map_int(., "id"), #Calls the issue id
                  title = map_chr(., "title"), #Calls the title of the issue
                  state = map_chr(., "state"), #States if the issue is open or closed
-                 user = map_chr(., c("user", "login")), #The user who created the issue
+                 creator = map_chr(., c("user", "login")), #The user who created the issue
                  created_at = map_chr(., "created_at") %>% as.Date(), #The date the issue was created
                  closed_at = map_chr_hack(., "closed_at") %>% as.Date(), #The date the issued was closed
                  n_comments = map_int(., "comments"), #This is the number of comments in an issue 
