@@ -1,6 +1,6 @@
 ---
 title: "Github Issues"
-author: "Robert Saldivar"
+author: "Robert Saldivar & Maggie Klope"
 date: "7/7/2020"
 output: html_document
 ---
@@ -30,6 +30,7 @@ library(rlang)
 
 issues_gh <- gh("/repos/brunj7/nceas-r-packages/issues", owner = "brunj7", repo = "nceas-r-packages", state = "all")
 
+issues_gh[[1]]$title
 
 map_chr_hack <- function(.x, .f, ...) {
   map(.x, .f, ...) %>%
@@ -59,7 +60,32 @@ issue_gh_df <- issues_gh %>%
 
 ```
 
+```{r}
+# getting data from the SNAPP-wg-scicomp 
 
+# first idea is to use the gh() function, and then loop through the issues to create a dataframe, but I'm not confident this would work for examples where there is more than one value, for example, there are more than two people assigned to an issue
+
+n_issues <- 1:length(issues_gh)
+
+df_test <- data.frame()
+
+for (i in n_issues) {
+  
+ df_test <- rbind(df_test, data.frame(
+   title = issues_gh[[i]]$title, 
+   user = issues_gh[[i]]$user$login,
+   assignee = 0,
+   date_created = issues_gh[[1]]$created_at, 
+   status = issues_gh[[i]]$state,
+   date_closed = 0
+   )
+   )
+ 
+}
+
+
+
+```
 
 This demonstrates how to store a token/password/key in the keyring package
 ```{r}
