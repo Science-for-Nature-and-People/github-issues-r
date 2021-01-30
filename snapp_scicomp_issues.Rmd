@@ -1,0 +1,70 @@
+---
+title: "snapp_scicomp_issues"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(gh)
+library(purrr)
+library(tidyr)
+library(curl)
+library(keyring)
+library(plotly)
+library(rlang)
+```
+
+```{r}
+# create a new keyring that store your git credentials
+# building off work done by Robert Saldivar
+
+kb <- keyring::backend_file$new() # makes a new backend environment
+
+# kb$keyring_create("Git_Credentials") # only run once, choose a password for your keyring when prompted
+
+kb$keyring_unlock("Git_Credentials") # unlock so it's open to set values within keychain
+
+kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") # enter in personal authentication token (PAT) when promted
+
+# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials")
+
+kb$keyring_lock("Git_Credentials") # finish by locking keyring
+
+
+```
+
+```{r}
+# getting data from the SNAPP-wg-scicomp 
+
+issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
+   .api_url = "https://github.nceas.ucsb.edu/api/v3", 
+   owner = "SNAPP", 
+   repo = "snapp-wg-scicomp",
+   .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
+   state = "all",
+   .limit = "all")
+
+# first idea is to use the gh() function, and then loop through the issues to create a dataframe, but I'm not confident this would work for examples where there is more than one value, for example, there are more than two people assigned to an issue
+
+n_issues <- 1:length(issues_gh)
+
+df_test <- data.frame()
+
+for (i in n_issues) {
+  
+ df_test <- rbind(df_test, data.frame(
+   title = issues_gh[[i]]$title, 
+   user = issues_gh[[i]]$user$login,
+   assignee = 0,
+   date_created = issues_gh[[1]]$created_at, 
+   status = issues_gh[[i]]$state,
+   date_closed = 0
+   )
+   )
+ 
+}
+
+```
+

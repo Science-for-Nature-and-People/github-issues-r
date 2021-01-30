@@ -1,6 +1,6 @@
 ---
 title: "Github Issues"
-author: "Robert Saldivar & Maggie Klope"
+author: "Robert Saldivar"
 date: "7/7/2020"
 output: html_document
 ---
@@ -60,32 +60,6 @@ issue_gh_df <- issues_gh %>%
 
 ```
 
-```{r}
-# getting data from the SNAPP-wg-scicomp 
-
-# first idea is to use the gh() function, and then loop through the issues to create a dataframe, but I'm not confident this would work for examples where there is more than one value, for example, there are more than two people assigned to an issue
-
-n_issues <- 1:length(issues_gh)
-
-df_test <- data.frame()
-
-for (i in n_issues) {
-  
- df_test <- rbind(df_test, data.frame(
-   title = issues_gh[[i]]$title, 
-   user = issues_gh[[i]]$user$login,
-   assignee = 0,
-   date_created = issues_gh[[1]]$created_at, 
-   status = issues_gh[[i]]$state,
-   date_closed = 0
-   )
-   )
- 
-}
-
-
-
-```
 
 This demonstrates how to store a token/password/key in the keyring package
 ```{r}
@@ -99,22 +73,21 @@ This demonstrates how to store a token/password/key in the keyring package
 
 
 #This is going to create a new keyring to store tokens
-#keyring::keyring_create("Example_Keyring") #this only needs to be run once
 
+# keyring::keyring_create("Example_Keyring") #this only needs to be run once
 
 #This sets a password in the keyring
-#keyring::key_set_with_value(service= "Key", #This is what will be called when using the keyring to access the stored token
+# keyring::key_set_with_value(service= "Key", #This is what will be called when using the keyring to access the stored token
 #  password= "Password", # this is the password/token that is being saved
 #  keyring= "Example_Keyring" #This is the keyring that the password is being associated with
 #  )
-
 
 #Example of how to use keyring with gh
 #gh("/repos/:user/:repo", .token = keyring::key_get(service = "Key", keyring = "Example_Keyring"))
 
 #Alternatively you can store token in .renviron by
-#usethis::edit_r_environ()
-#GITHUB_PAT = password
+# usethis::edit_r_environ()
+# GITHUB_PAT = password 
 
 #Here is a good reference for setting .renviron: https://rstats.wtf/r-startup.html
 
