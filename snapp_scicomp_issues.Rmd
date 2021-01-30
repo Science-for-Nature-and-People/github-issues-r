@@ -55,16 +55,27 @@ df_test <- data.frame()
 for (i in n_issues) {
   
  df_test <- rbind(df_test, data.frame(
+   repo_num = i,
    title = issues_gh[[i]]$title, 
    user = issues_gh[[i]]$user$login,
    assignee = 0,
    date_created = issues_gh[[1]]$created_at, 
    status = issues_gh[[i]]$state,
-   date_closed = 0
+   # date_closed = issues_gh[[i]]$closed_at # how to solve when has null values that rbind skips over?
    )
    )
  
 }
 
 ```
+
+
+```{r}
+
+# put fiscal start and end dates here:
+# start_date = 
+# end_date = 
+
+```
+
 
