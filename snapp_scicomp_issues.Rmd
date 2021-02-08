@@ -15,11 +15,14 @@ library(keyring)
 library(plotly)
 library(rlang)
 library(data.table)
-library(lubridate)
+library(DT)
+
 ```
 
+# creating a new keyring that store git credentials
+
 ```{r}
-# create a new keyring that store your git credentials
+
 # building off work done by Robert Saldivar
 
 kb <- keyring::backend_file$new() # makes a new backend environment
@@ -34,11 +37,11 @@ kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = 
 
 kb$keyring_lock("Git_Credentials") # finish by locking keyring
 
-
 ```
 
-```{r}
 # getting data from the SNAPP-wg-scicomp 
+
+```{r}
 
 issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
    .api_url = "https://github.nceas.ucsb.edu/api/v3", 
@@ -48,7 +51,11 @@ issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
    state = "all",
    .limit = "all")
 
-# creating a data frame with a loop
+```
+
+# creating a data frame
+
+```{r}
 
 # getting number of issues to set row
 n_issues <- 1:length(issues_gh)
@@ -78,16 +85,18 @@ for (i in n_issues) {
  
 }
 
-
+write_csv(df_test, path = "df_test.csv")
 
 ```
 
+# using DT package
+
+- datatable() creates a  HTML widget to display R data objects
+- better way to sort dates might be to make a new column that has the name of the fiscal year (ex: 2019-2020) to sort with?
 
 ```{r}
-
-# put fiscal start and end dates here:
-# start_date = 
-# end_date = 
+ datatable(df_test,
+           filter = 'top') # adds a filter to the top, works to restrict dates but is not very effective
 
 ```
 
