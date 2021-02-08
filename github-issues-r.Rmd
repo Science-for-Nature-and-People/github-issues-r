@@ -30,8 +30,6 @@ library(rlang)
 
 issues_gh <- gh("/repos/brunj7/nceas-r-packages/issues", owner = "brunj7", repo = "nceas-r-packages", state = "all")
 
-issues_gh[[1]]$title
-
 map_chr_hack <- function(.x, .f, ...) {
   map(.x, .f, ...) %>%
     map_if(is.null, ~ NA_character_) %>%

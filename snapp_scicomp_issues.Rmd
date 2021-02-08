@@ -14,6 +14,8 @@ library(curl)
 library(keyring)
 library(plotly)
 library(rlang)
+library(data.table)
+library(lubridate)
 ```
 
 ```{r}
@@ -46,26 +48,37 @@ issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
    state = "all",
    .limit = "all")
 
-# first idea is to use the gh() function, and then loop through the issues to create a dataframe, but I'm not confident this would work for examples where there is more than one value, for example, there are more than two people assigned to an issue
+# creating a data frame with a loop
 
+# getting number of issues to set row
 n_issues <- 1:length(issues_gh)
 
+# blank data frame
 df_test <- data.frame()
 
+# creating data frame
 for (i in n_issues) {
   
  df_test <- rbind(df_test, data.frame(
    repo_num = i,
    title = issues_gh[[i]]$title, 
-   user = issues_gh[[i]]$user$login,
-   assignee = 0,
-   date_created = issues_gh[[1]]$created_at, 
+   creator = issues_gh[[i]]$user$login,
+   assignee = ifelse(test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
+                     yes = NA, 
+                     no = issues_gh[[i]]$assignee$login),
+   date_created = as.Date(issues_gh[[i]]$created_at), 
    status = issues_gh[[i]]$state,
-   # date_closed = issues_gh[[i]]$closed_at # how to solve when has null values that rbind skips over?
-   )
-   )
+   date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at), 
+                        yes = NA, 
+                        no = issues_gh[[i]]$closed_at) %>% as.Date(),
+   labels = ifelse(length(issues_gh[[i]]$labels) == 0, 
+                   yes = NA, 
+                   no = issues_gh[[i]]$labels[[1]]$name)
+   ))
  
 }
+
+
 
 ```
 
