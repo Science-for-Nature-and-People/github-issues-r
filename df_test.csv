@@ -1,0 +1,114 @@
+repo_num,title,creator,assignee,date_created,status,date_closed,labels
+1,List all the tasks we have done for SNAPP ,brun,mmklope,2021-01-28,open,NA,NA
+2,Debug the automated script to warn about new publications,brun,mmklope,2021-01-28,open,NA,NA
+3,Creating CRF Survey,robertsaldivar,robertsaldivar,2020-09-16,closed,2020-10-20,Climate Resilient Fisheries
+4,Create Zotero Pre-processing script,nathanhwangbo,nathanhwangbo,2020-08-12,closed,2020-10-20,enhancement
+5,Research `reticulate`,brun,mmklope,2020-08-04,closed,2020-10-20,Background task
+6,Air Resources Laboratories (ARL)-packed data,brun,mmklope,2020-07-21,open,NA,wildfire
+7,Test getting NEON metagenomic soil data,brun,mmklope,2020-07-15,closed,2020-10-20,Background task
+8,Using R to Summarize Github Issues,robertsaldivar,NA,2020-07-06,open,NA,Background task
+9,Onboarding Repo,mmklope,mmklope,2020-06-24,closed,2020-10-20,Team Tools
+10,looking into `scatterpie`,brun,mmklope,2020-06-24,closed,2021-01-28,Conservation Aquaculture
+11,[SNAPP -SOC] Optimize Twitter API calls/merges,nathanhwangbo,nathanhwangbo,2020-04-08,closed,2021-01-28,Soil Carbon
+12,[SNAPP -SOC] Test analysis with version 4,brun,mopner,2020-04-03,closed,2020-06-29,NA
+13,[SNAPP - CRF] Survey data ,brun,brun,2020-04-02,closed,2020-10-20,Climate Resilient Fisheries
+14,[SNAPP - Conservation Aquaculture] Mapping of scores,brun,robertsaldivar,2020-03-26,closed,2021-01-28,Conservation Aquaculture
+15,check new version of Twitter Data,brun,nathanhwangbo,2020-03-06,closed,2020-06-29,Soil Carbon
+16,Digitizing Forested Areas to Evaluate High Carbon Stocks,robertsaldivar,robertsaldivar,2020-03-06,closed,2021-01-28,zero-deforestation
+17,R Self-Assessment development,nathanhwangbo,nathanhwangbo,2020-01-14,closed,2020-03-24,NA
+18,[SNAPP WG Impacts] Shiny app,brun,brun,2019-09-11,closed,2021-01-28,General
+19,SNAPP WG impacts -- outcomes phase II,brun,brun,2019-09-03,closed,2021-01-28,General
+20,Processing Data for model run,brun,nathanhwangbo,2019-08-13,closed,2020-04-10,Ecological Drought
+21,Look Into Missing Data,jeremyknox,NA,2019-07-16,closed,2020-03-24,Soil Carbon
+22,Consolidate soc-twitter Files and Update README's,jeremyknox,NA,2019-07-16,closed,2019-07-16,Soil Carbon
+23,Create Warning System for automate.R Script Not Collecting Tweets ,jeremyknox,NA,2019-07-12,closed,2020-03-24,Soil Carbon
+24,Find and remove duplicated in main twitter data frames (RT and noRT),jeremyknox,NA,2019-07-12,closed,2019-07-16,Soil Carbon
+25,Iterating on Soil Shiny app,brun,nathanhwangbo,2019-07-11,closed,2019-12-11,Soil Carbon
+26,Looking into duplicate tweets,jeremyknox,NA,2019-07-09,closed,2019-07-16,Soil Carbon
+27,[SNAPP impacts] Write Script to update data,brun,brun,2019-07-09,closed,2021-01-28,General
+28,Looking into Hindi translation,brun,NA,2019-07-03,closed,2019-07-16,Soil Carbon
+29,Updating the twitter data,jeremyknox,NA,2019-07-02,closed,2019-07-16,Soil Carbon
+30,output - outcome pairwise plot,brun,NA,2019-06-18,closed,2019-07-16,General
+31,"Test Shiny form with SQLite ""backend""",brun,NA,2019-06-03,closed,2021-01-28,Conservation Aquaculture
+32,API to dataset metrics,brun,brun,2019-05-17,closed,2020-04-10,NA
+33,Search Data with Bridge weight and axle limits ,brun,brun,2019-05-13,closed,2019-08-21,Appalachian Coal
+34,Data entry and database for literature review,brun,brun,2019-05-01,closed,2021-01-28,Flow Impacts
+35,Get citation from publications,brun,NA,2019-04-29,closed,2020-04-10,General
+36,text analysis of soc-twitter data,mopner,mopner,2019-04-09,closed,2020-04-10,Soil Carbon
+37,data modeling: hierarchical data,brun,brun,2019-04-08,closed,2020-03-24,Soil Carbon
+38,[Landscape connectivity India] Reach out about data challenge,brun,brun,2019-03-21,closed,2019-08-21,India Connectivity
+39,Test `litsearch` package,brun,NA,2019-03-19,closed,2019-07-02,Background task
+40,Tutorial to create a scicomp repo on GHE,brun,NA,2019-03-18,closed,2019-08-21,Background task
+41,[SNAPP - WG] Refactor the codes to process WG characteristics,brun,brun,2019-03-18,closed,2021-01-28,General
+42,Archive data on the KNB,cbobroff,NA,2019-03-15,closed,2019-04-08,General
+43,Answering requests from soc twitter,gnolasco,NA,2019-03-13,closed,2020-03-24,Soil Carbon
+44,testing BibScan,brun,NA,2019-02-04,closed,2020-03-24,Soil Carbon
+45,NCEAS Git Training Review,nathanhwangbo,NA,2019-01-29,closed,2019-03-08,NA
+46,Solar data modeling,brun,brun,2019-01-24,closed,2020-04-10,Appalachian Coal
+47,Check Shiny app not working,brun,nathanhwangbo,2019-01-14,closed,2020-06-29,Soil Carbon
+48,[SNAPP - WG] WG metrics,brun,nathanhwangbo,2018-12-14,closed,2021-01-28,General
+49,[SNAPP - WG] Working Group Reports data extraction,gnolasco,NA,2018-12-11,closed,2021-01-28,General
+50,Meeting Dec 2018,brun,brun,2018-12-11,closed,2020-03-24,Levers for Health
+51,[SNAPP - Flows Impacts] 2nd Meeting Nov 2018 - reporting of groups EOD #2,brun,brun,2018-11-29,closed,2019-01-14,Flow Impacts
+52,[SNAPP - Flows Impacts] 2nd Meeting Nov 2018,brun,brun,2018-11-27,closed,2020-04-10,Flow Impacts
+53,Adding covariates to model input file,brun,brun,2018-11-26,closed,2019-02-06,Ecological Drought
+54,[Appalachian Coalfields] Leaflet Map Demo,nathanhwangbo,nathanhwangbo,2018-11-10,closed,2019-03-18,Appalachian Coal
+55,Interactive Data viz - Shiny app updates,msleckman,brun,2018-09-25,closed,2021-01-28,Levers for Health
+56,Modify LTER data listing template for SNAPP,msleckman,brun,2018-09-21,closed,2018-09-25,NA
+57,[Forest Sharing] Data Archiving,brun,brun,2018-08-31,closed,2018-12-18,Archiving
+58,[Natural Capital Accounting] Archiving,brun,brun,2018-08-29,closed,2019-03-18,Archiving
+59,Archiving climate change paper,brun,NA,2018-08-06,closed,2018-08-29,Aquaculture
+60,CA - grassland raster processing,brun,NA,2018-07-09,closed,2018-09-17,Soil Carbon
+61,Twitter questions that the WG would like to investigate,brun,NA,2018-06-25,closed,2020-03-24,Soil Carbon
+62,Twitter analysis - Merge the 2 data sets,brun,NA,2018-06-25,closed,2019-03-18,Soil Carbon
+63,Summer tasks request,brun,brun,2018-06-04,closed,2019-03-18,Soil Carbon
+64,Process theobald forest flowline dataset,brun,brun,2018-06-01,closed,2019-03-18,Ecological Drought
+65,Project Description,brun,brun,2018-05-21,closed,2021-01-28,Sanitation Nature
+66,Ray Hilborn's database,brun,brun,2018-05-16,closed,2019-03-18,Fisheries status
+67,Interactive data visulization,brun,NA,2018-05-10,closed,2019-03-18,Levers for Health
+68,Archiving  forage fish paper,brun,brun,2018-05-08,closed,2018-08-29,Aquaculture
+69,Appalachian Coalfields -  Project description,brun,NA,2018-05-02,closed,2021-01-28,Appalachian Coal
+70,Test the new webform to create data packages,brun,NA,2018-05-01,closed,2019-03-18,NA
+71,HUC8 - Coastal county discrepencies,brun,brun,2018-04-30,closed,2018-08-29,Coastal Restoration
+72,Tasks discussed at the end of Coastal Restoration 3rd meeting,brun,NA,2018-04-30,closed,2019-03-18,Coastal Restoration
+73,[Evidence-based] Portal crashing,brun,NA,2018-04-16,closed,2019-01-30,NA
+74,metagear not working on Skylar's mac,brun,brun,2018-04-11,closed,2019-03-18,Levers for Health
+75,Evaluate team discussion as a collaborative tool fro WG,brun,NA,2018-04-10,closed,2021-01-28,Background task
+76,ggplot error bars,brun,brun,2018-04-02,closed,2018-04-11,Aquaculture
+77,Midwestern Agriculture data frame and query script,brun,NA,2018-03-28,closed,2019-03-18,Soil Carbon
+78,Twitter batch script not working on Aurora,brun,brun,2018-03-23,closed,2019-03-18,Soil Carbon
+79,[Aquaculture] Archiving of aquaculture land use ,brun,brun,2018-03-21,closed,2018-09-21,Aquaculture
+80,Summarizing WSFR data,gdaldegan,NA,2018-03-03,closed,2019-03-18,Coastal Restoration
+81,Skylar lit review call ,brun,brun,2018-02-28,closed,2019-03-18,Levers for Health
+82,Collaborative tools,brun,NA,2018-02-27,closed,2020-04-10,Appalachian Coal
+83,USWFS -TRACS data,brun,NA,2018-02-22,closed,2019-03-18,Coastal Restoration
+84,Double check the result from 'ufws_data_import.R' and created R scripts to read the 1st and 3rd tabs from FY csv files,gdaldegan,NA,2018-02-16,closed,2019-03-18,Coastal Restoration
+85,using github api to summarize issues and create projects for working groups,brun,NA,2018-02-05,closed,2021-01-28,Background task
+86,Further testing of how to best share literature within working groups,brun,NA,2018-02-05,closed,2020-04-10,Background task
+87,R script to download scientific papers by their DOIs or title,gdaldegan,NA,2018-02-03,closed,2019-03-18,Levers for Health
+88,Link to Join SNAPP slack,brun,NA,2018-01-26,open,NA,General
+89,Archiving Wester Amazonia Fish Data,gdaldegan,NA,2018-01-26,closed,2019-03-18,Amazon Waters
+90,Working group description,brun,brun,2018-01-24,closed,2021-01-28,Flow Impacts
+91,Collaborative tools,brun,NA,2018-01-24,closed,2021-01-28,Flow Impacts
+92,Check EML Fish geodatabase,brun,brun,2018-01-22,closed,2019-03-18,Amazon Waters
+93,Setup collaborative tools for 2017 WGs,brun,brun,2018-01-22,closed,2019-03-18,General
+94,Database model,brun,brun,2018-01-22,closed,2019-03-18,Soil Carbon
+95,Working Group Description,msleckman,NA,2018-01-19,closed,2021-01-28,Background task
+96,Better Land use Archiving,brun,NA,2018-01-17,closed,2019-03-18,Better Land Use
+97,Working group description,brun,NA,2018-01-15,closed,2021-01-28,Steppe Health
+98,Collaborative Tools,brun,NA,2018-01-15,closed,2021-01-28,Steppe Health
+99,Security issue with one the library used by their application,brun,brun,2018-01-13,closed,2019-03-18,Hydraulic Fracking
+100,UWFS data,brun,brun,2018-01-13,closed,2019-03-18,Coastal Restoration
+101,Twitter data,brun,NA,2017-12-06,closed,2019-03-18,Soil Carbon
+102,Literature search,brun,NA,2017-12-04,closed,2019-01-14,Levers for Health
+103,Call on 2017/09/08 to follow up on duplicates,brun,brun,2017-12-04,closed,2019-03-18,Coastal Restoration
+104,Collaborative tools,brun,NA,2017-12-04,closed,2021-01-28,Coastal Restoration
+105,Text analysis approach,brun,NA,2017-11-06,closed,2019-03-18,Soil Carbon
+106,Text modeling,brun,NA,2017-11-03,closed,2019-03-18,Soil Carbon
+107,Leslie's Request about systematic review Midwest agriculture mgt,brun,brun,2017-11-03,closed,2019-03-18,Soil Carbon
+108,Collaborative tools,brun,NA,2017-11-03,closed,2021-01-28,Soil Carbon
+109,Working group description,brun,NA,2017-11-03,closed,2021-01-28,Soil Carbon
+110,Second meeting notes:,brun,NA,2017-11-03,closed,2019-03-18,Soil Carbon
+111,Consolidate the R script into a package,brun,brun,2017-11-02,closed,2020-04-10,Ecological Drought
+112,Verify data processing data,brun,NA,2017-11-02,closed,2019-03-18,Ecological Drought
+113,Helping the working group with data processing for their model run,brun,brun,2017-11-02,closed,2019-03-18,Ecological Drought
