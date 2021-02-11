@@ -25,17 +25,17 @@ library(DT)
 
 # building off work done by Robert Saldivar
 
-kb <- keyring::backend_file$new() # makes a new backend environment
+kb <- keyring::backend_file$new() #makes a new backend environment
 
-# kb$keyring_create("Git_Credentials") # only run once, choose a password for your keyring when prompted
+# kb$keyring_create("Git_Credentials") #only run once, choose a password for your keyring when prompted
 
-kb$keyring_unlock("Git_Credentials") # unlock so it's open to set values within keychain
+kb$keyring_unlock("Git_Credentials") #unlock so it's open to set values within keychain
 
-kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") # enter in personal authentication token (PAT) when promted
+kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") #enter in personal authentication token (PAT) when prompted
 
-# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials")
+# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials") #run this if you need to view your PAT
 
-kb$keyring_lock("Git_Credentials") # finish by locking keyring
+kb$keyring_lock("Git_Credentials") #finish by locking keyring
 
 ```
 
@@ -70,17 +70,28 @@ for (i in n_issues) {
    repo_num = i,
    title = issues_gh[[i]]$title, 
    creator = issues_gh[[i]]$user$login,
-   assignee = ifelse(test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
-                     yes = NA, 
-                     no = issues_gh[[i]]$assignee$login),
+   assignees = ifelse(
+      test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
+      yes = NA, 
+      no = as.character(
+         as.data.frame(issues_gh[[i]]$assignees) %>% 
+         dplyr::select(contains("login")) %>% 
+         unite(col = "assignees", sep = ", "))
+      ),
    date_created = as.Date(issues_gh[[i]]$created_at), 
    status = issues_gh[[i]]$state,
    date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at), 
                         yes = NA, 
                         no = issues_gh[[i]]$closed_at) %>% as.Date(),
-   labels = ifelse(length(issues_gh[[i]]$labels) == 0, 
-                   yes = NA, 
-                   no = issues_gh[[i]]$labels[[1]]$name)
+   labels = ifelse(
+      test = length(issues_gh[[i]]$labels) == 0, 
+      yes = NA, 
+      no = as.character(
+         flatten_dfc(issues_gh[[i]]$labels) %>% 
+         dplyr::select(contains("name")) %>% 
+         unite(col = "labels", sep = ", "))
+      ),
+   num_comments = issues_gh[[i]]$comments
    ))
  
 }
