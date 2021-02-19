@@ -100,14 +100,60 @@ write_csv(df_test, path = "df_test.csv")
 
 ```
 
+# filtering by desired date
+# currently only showing issues that were created and closed in 2020
+```{r}
+
+#enter desired dates in yyyy-mm-dd
+start_date <- "2020-01-01"
+end_date <- "2020-12-31"
+
+df_filtered <- df_test %>% 
+   dplyr::filter(date_created >= as.Date(start_date)) %>% 
+   dplyr::filter(date_closed <= as.Date(end_date))
+
+```
+
+
 # using DT package
 
 - datatable() creates a  HTML widget to display R data objects
 - better way to sort dates might be to make a new column that has the name of the fiscal year (ex: 2019-2020) to sort with?
 
 ```{r}
- datatable(df_test,
-           filter = 'top') # adds a filter to the top, works to restrict dates but is not very effective
+ datatable(df_filtered
+           # filter = 'top' # adds a filter to the top, works to restrict dates but is not very effective
+           ) 
+
+```
+
+# function
+
+Needs to include:
+- backend environment for keyring (only needed when running on server?)
+- name for keyring
+- repo path
+- repo url
+- desired start and end dates
+
+
+```{r}
+
+
+#makes a new backend environment
+kb <- keyring::backend_file$new() 
+
+#only run once, choose a password for your keyring when prompted
+kb$keyring_create("Git_Credentials") #only run once, choose a password for your keyring when prompted
+
+kb$keyring_unlock("Git_Credentials") #unlock so it's open to set values within keychain
+
+kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") #enter in personal authentication token (PAT) when prompted
+
+# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials") #run this if you need to view your PAT
+
+kb$keyring_lock("Git_Credentials") #finish by locking keyring
+
 
 ```
 
