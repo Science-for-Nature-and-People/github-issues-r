@@ -138,23 +138,9 @@ Needs to include:
 
 
 ```{r}
-function_test <- function(github_username, github_api_endpoint, url, repo_owner, repo_name){
-  
-  # makes a new backend environment
-  kb <- keyring::backend_file$new() 
-  
-  # creates keyring
-  kb$keyring_create("Git_Credentials")
-  
-  # unlocks keyring
-  kb$keyring_unlock("Git_Credentials")
-  
-  # enter in personal authentication token (PAT) when prompted
-  # to get PAT, go to github account > Settings > Developer Settings > Personal access tokens
-  kb$set(service = "Github_Enterprise_Token", username = github_username, keyring = "Git_Credentials") 
-  
-  # finish by locking keyring
-  kb$keyring_lock("Git_Credentials")
+# this function assumes that the user has saved their token with the keyring package the way I did above
+
+function_test <- function(github_api_endpoint, url, repo_owner, repo_name){
   
   # pulls the github issue
   issues_gh <- gh(github_api_endpoint, 
@@ -204,12 +190,9 @@ function_test <- function(github_username, github_api_endpoint, url, repo_owner,
     
   }
   
-  
-  
-}
+  }
 
-function_test(github_username = "maggieklope", 
-              github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues",
+df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues",
               url = "https://github.nceas.ucsb.edu/api/v3",
               repo_owner = "SNAPP",
               repo_name = "snapp-wg-scicomp")
