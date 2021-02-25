@@ -208,17 +208,17 @@ df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues"
               repo_name = "snapp-wg-scicomp",
               public = FALSE)
 
-# trying public repo
-GITHUB_TOKEN = as.character(gh_token(api_url = "https://api.github.com/repos/maggieklope/leaflet-tutorial"))
-
-# why doesn't this work? It works when I create a PAT through my github account through
-issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues", 
-   .api_url = "https://api.github.com", 
-   owner = "maggieklope", 
-   repo = "leaflet-tutorial",
-   .token = GITHUB_TOKEN,
-   state = "all",
-   .limit = "all")
+# # trying public repo
+# GITHUB_TOKEN = as.character(gh_token(api_url = "https://api.github.com/repos/maggieklope/leaflet-tutorial"))
+# 
+# # why doesn't this work? It works when I create a PAT through my github account through
+# issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues", 
+#    .api_url = "https://api.github.com", 
+#    owner = "maggieklope", 
+#    repo = "leaflet-tutorial",
+#    .token = GITHUB_TOKEN,
+#    state = "all",
+#    .limit = "all")
 
 ```
 
