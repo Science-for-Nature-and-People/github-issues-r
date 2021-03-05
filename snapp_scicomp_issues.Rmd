@@ -209,6 +209,13 @@ kb$keyring_lock("Git_Credentials")
 #    .limit = "all")
 
 # using my function
+function_test(github_api_endpoint = "/repos/maggieklope/test-repo/issues",
+              url = "https://api.github.com",
+              repo_owner = "maggieklope",
+              repo_name = "test-repo",
+              PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
+
+# gets error when there are no issues, need to add some sort of a "this repo has no issues" response
 function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues",
               url = "https://api.github.com",
               repo_owner = "maggieklope",
@@ -216,4 +223,3 @@ function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues"
               PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 
 ```
-
