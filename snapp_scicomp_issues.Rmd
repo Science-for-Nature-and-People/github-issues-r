@@ -114,7 +114,6 @@ df_filtered <- df_test %>%
 
 ```
 
-
 # using DT package
 
 - datatable() creates a  HTML widget to display R data objects
@@ -124,41 +123,21 @@ df_filtered <- df_test %>%
  datatable(df_filtered
            # filter = 'top' # adds a filter to the top, works to restrict dates but is not very effective
            ) 
-
 ```
 
 # function
-
-Needs to include:
-- backend environment for keyring (only needed when running on server?)
-- name for keyring
-- repo path
-- repo url
-- desired start and end dates
-
-
 ```{r}
 # this function assumes that the user has saved their token with the keyring package the way I did above
 
 function_test <- function(github_api_endpoint, url, repo_owner, repo_name, public = TRUE){
   
-  # pulls the github issue, different method depending on private for not / needing a token
-  if(isTRUE(public)){
-    issues_gh <- gh(github_api_endpoint, 
-                  .api_url = url, 
-                  owner = repo_owner, 
-                  repo = repo_name,
-                  state = "all",
-                  .limit = "all")
-  } else {
-    issues_gh <- gh(github_api_endpoint, 
-                  .api_url = url, 
-                  owner = repo_owner, 
+    issues_gh <- gh(github_api_endpoint,
+                  .api_url = url,
+                  owner = repo_owner,
                   repo = repo_name,
                   .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
                   state = "all",
                   .limit = "all")
-    }
   
   # getting number of issues to set row
   n_issues <- 1:length(issues_gh)
@@ -198,28 +177,32 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, publi
     ))
     
   }
-  
   }
 
+```
+
 # works for github enterprise account with token:
+```{r}
 df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues",
               url = "https://github.nceas.ucsb.edu/api/v3",
               repo_owner = "SNAPP",
               repo_name = "snapp-wg-scicomp",
               public = FALSE)
-
-# # trying public repo
-# GITHUB_TOKEN = as.character(gh_token(api_url = "https://api.github.com/repos/maggieklope/leaflet-tutorial"))
-# 
-# # why doesn't this work? It works when I create a PAT through my github account through
-# issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues", 
-#    .api_url = "https://api.github.com", 
-#    owner = "maggieklope", 
-#    repo = "leaflet-tutorial",
-#    .token = GITHUB_TOKEN,
-#    state = "all",
-#    .limit = "all")
-
 ```
 
+# testing function on my own, non enterprise repo
+```{r}
+kb$keyring_unlock("Git_Credentials")
+kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials")
+kb$keyring_lock("Git_Credentials")
+
+issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues",
+   .api_url = "https://api.github.com",
+   owner = "maggieklope",
+   repo = "leaflet-tutorial",
+   .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
+   state = "all",
+   .limit = "all")
+
+```
 
