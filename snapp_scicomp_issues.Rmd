@@ -129,13 +129,13 @@ df_filtered <- df_test %>%
 ```{r}
 # this function assumes that the user has saved their token with the keyring package the way I did above
 
-function_test <- function(github_api_endpoint, url, repo_owner, repo_name, public = TRUE){
+function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
   
     issues_gh <- gh(github_api_endpoint,
                   .api_url = url,
                   owner = repo_owner,
                   repo = repo_name,
-                  .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
+                  .token = PAT,
                   state = "all",
                   .limit = "all")
   
@@ -147,62 +147,73 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, publi
   
   # creating data frame
   for (i in n_issues) {
-    
-    df_test <- rbind(df_test, data.frame(
-      repo_num = i,
-      title = issues_gh[[i]]$title, 
-      creator = issues_gh[[i]]$user$login,
-      assignees = ifelse(
-        test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
-        yes = NA, 
-        no = as.character(
-          as.data.frame(issues_gh[[i]]$assignees) %>% 
-            dplyr::select(contains("login")) %>% 
-            unite(col = "assignees", sep = ", "))
-      ),
-      date_created = as.Date(issues_gh[[i]]$created_at), 
-      status = issues_gh[[i]]$state,
-      date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at), 
-                           yes = NA, 
-                           no = issues_gh[[i]]$closed_at) %>% as.Date(),
-      labels = ifelse(
-        test = length(issues_gh[[i]]$labels) == 0, 
-        yes = NA, 
-        no = as.character(
-          flatten_dfc(issues_gh[[i]]$labels) %>% 
-            dplyr::select(contains("name")) %>% 
-            unite(col = "labels", sep = ", "))
-      ),
-      num_comments = issues_gh[[i]]$comments
-    ))
-    
+
+  df_test <- rbind(df_test, data.frame(
+    repo_num = i,
+    title = issues_gh[[i]]$title,
+    creator = issues_gh[[i]]$user$login,
+    assignees = ifelse(
+      test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
+      yes = NA,
+      no = as.character(
+        as.data.frame(issues_gh[[i]]$assignees) %>%
+          dplyr::select(contains("login")) %>%
+          unite(col = "assignees", sep = ", "))
+    ),
+    date_created = as.Date(issues_gh[[i]]$created_at),
+    status = issues_gh[[i]]$state,
+    date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at),
+                         yes = NA,
+                         no = issues_gh[[i]]$closed_at) %>% as.Date(),
+    labels = ifelse(
+      test = length(issues_gh[[i]]$labels) == 0,
+      yes = NA,
+      no = as.character(
+        flatten_dfc(issues_gh[[i]]$labels) %>%
+          dplyr::select(contains("name")) %>%
+          unite(col = "labels", sep = ", "))
+    ),
+    num_comments = issues_gh[[i]]$comments
+  ))
+
   }
+  return(df_test)
   }
 
 ```
 
 # works for github enterprise account with token:
 ```{r}
+
 df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues",
               url = "https://github.nceas.ucsb.edu/api/v3",
               repo_owner = "SNAPP",
               repo_name = "snapp-wg-scicomp",
-              public = FALSE)
+              PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 ```
 
 # testing function on my own, non enterprise repo
 ```{r}
+# resetting the keyring to my own PAT
 kb$keyring_unlock("Git_Credentials")
 kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials")
 kb$keyring_lock("Git_Credentials")
 
-issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues",
-   .api_url = "https://api.github.com",
-   owner = "maggieklope",
-   repo = "leaflet-tutorial",
-   .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
-   state = "all",
-   .limit = "all")
+# # using gh() function
+# issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues",
+#    .api_url = "https://api.github.com",
+#    owner = "maggieklope",
+#    repo = "leaflet-tutorial",
+#    .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
+#    state = "all",
+#    .limit = "all")
+
+# using my function
+function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues",
+              url = "https://api.github.com",
+              repo_owner = "maggieklope",
+              repo_name = "leaflet-tutorial",
+              PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 
 ```
 
