@@ -19,32 +19,52 @@ library(DT)
 
 ```
 
-# creating a new keyring that store git credentials
+# Steps:
+1) Save PAT from github (user can use keyring package like I did, or save in .Renvirone, etc.)
+2) use gh package to grab the information
+3) Creat data frame from the gh object
+4) 
+
+# 1) creating a new keyring that store git credentials
 
 ```{r}
 
-# building off work done by Robert Saldivar
+# makes a new backend environment
+kb <- keyring::backend_file$new() 
 
-kb <- keyring::backend_file$new() #makes a new backend environment
+# # run this one only run once
+# # choose a password for your keyring when prompted
+# kb$keyring_create("Git_Credentials")
 
-# kb$keyring_create("Git_Credentials") #only run once, choose a password for your keyring when prompted
+# unlock with keyring password to set values within keychain
+kb$keyring_unlock("Git_Credentials") 
 
-kb$keyring_unlock("Git_Credentials") #unlock so it's open to set values within keychain
+# enter in personal authentication token (PAT) when prompted
+kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") 
 
-kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials") #enter in personal authentication token (PAT) when prompted
+# # run this if you need to view your PAT
+# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials")
 
-# kb$get("Github_Enterprise_Token", keyring = "Git_Credentials") #run this if you need to view your PAT
-
-kb$keyring_lock("Git_Credentials") #finish by locking keyring
+# finish by locking keyring
+kb$keyring_lock("Git_Credentials") 
 
 ```
 
-# getting data from the SNAPP-wg-scicomp 
+# 2) using gh package to get data from the SNAPP-wg-scicomp 
+
+for the enpoint:
+- to look at issues on a repo, enterprise accounts and github.com accounts use the same format with "repose/owner/repo/issues"
+
+for .api_url:
+- enterprise accounts use https://github.nceas.ucsb.edu/api/v3
+- github.com accounts use https://api.github.com
 
 ```{r}
 
-issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues", 
-   .api_url = "https://github.nceas.ucsb.edu/api/v3", 
+# enter in keyring password when prompted
+issues_gh <- gh(
+  endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues", 
+   .api_url = "https://github.nceas.ucsb.edu/api/v3",
    owner = "SNAPP", 
    repo = "snapp-wg-scicomp",
    .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
@@ -53,17 +73,21 @@ issues_gh <- gh("/repos/SNAPP/snapp-wg-scicomp/issues",
 
 ```
 
-# creating a data frame
+# 3) Create a dataframe from the gh object
+
+I decided to do this in a loop:
+
+- For columns with missing values (ex: repos that have not been closed yet), I added in ifelse() statement because rbind will ignore NA values causing it to have a different length than the data frame
+- When there is more than one value (ex: multiple assignees & repo labels) I made it so that they are listed together in one cell
 
 ```{r}
-
 # getting number of issues to set row
 n_issues <- 1:length(issues_gh)
 
 # blank data frame
 df_test <- data.frame()
 
-# creating data frame
+# filling data frame using rbind
 for (i in n_issues) {
   
  df_test <- rbind(df_test, data.frame(
@@ -71,7 +95,7 @@ for (i in n_issues) {
    title = issues_gh[[i]]$title, 
    creator = issues_gh[[i]]$user$login,
    assignees = ifelse(
-      test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
+      test = is.null(issues_gh[[i]]$assignee$login), 
       yes = NA, 
       no = as.character(
          as.data.frame(issues_gh[[i]]$assignees) %>% 
@@ -96,38 +120,43 @@ for (i in n_issues) {
  
 }
 
-write_csv(df_test, path = "df_test.csv")
+# write_csv(df_test, path = "df_test.csv")
 
 ```
 
-# filtering by desired date
-# currently only showing issues that were created and closed in 2020
-```{r}
-
-#enter desired dates in yyyy-mm-dd
-start_date <- "2020-01-01"
-end_date <- "2020-12-31"
-
-df_filtered <- df_test %>% 
-   dplyr::filter(date_created >= as.Date(start_date)) %>% 
-   dplyr::filter(date_closed <= as.Date(end_date))
-
-```
-
-# using DT package
+4) Create table that can filter by date & other features
 
 - datatable() creates a  HTML widget to display R data objects
 - better way to sort dates might be to make a new column that has the name of the fiscal year (ex: 2019-2020) to sort with?
 
+## first method could be to filter data based on input dates taken by the user, and then put that into DT
+
 ```{r}
- datatable(df_filtered
-           # filter = 'top' # adds a filter to the top, works to restrict dates but is not very effective
+#enter desired dates in yyyy-mm-dd
+start_date <- "2020-01-01"
+end_date <- "2020-12-31"
+
+df_filtered <- df_test %>%
+   dplyr::filter(date_created >= as.Date(start_date)) %>%
+   dplyr::filter(date_closed <= as.Date(end_date))
+
+datatable(df_filtered)
+
+```
+
+## or can use DT's filter argument
+
+- kind of difficult to use the slider at the top for dates, but I do like that it has the search bars so you can filter it to open/closed or to a specific assignee
+
+```{r}
+ datatable(df_test,
+           filter = 'top'
            ) 
 ```
 
-# function
+# Putting together as a function
 ```{r}
-# this function assumes that the user has saved their token with the keyring package the way I did above
+# this function assumes that the user has saved their token.  They can use the keyring package the way I did above or use their own and set it as the PAT argument
 
 function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
   
@@ -148,7 +177,7 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
   # creating data frame
   for (i in n_issues) {
 
-  df_test <- rbind(df_test, data.frame(
+  df_temp <- rbind(df_test, data.frame(
     repo_num = i,
     title = issues_gh[[i]]$title,
     creator = issues_gh[[i]]$user$login,
@@ -177,14 +206,15 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
   ))
 
   }
-  return(df_test)
+  
+  table <- datatable(df_temp,filter = 'top')
+  renderDT(table)
   }
 
 ```
 
-# works for github enterprise account with token:
+# works for NCEAS github enterprise account with token:
 ```{r}
-
 df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues",
               url = "https://github.nceas.ucsb.edu/api/v3",
               repo_owner = "SNAPP",
@@ -192,23 +222,14 @@ df <- function_test(github_api_endpoint = "/repos/SNAPP/snapp-wg-scicomp/issues"
               PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 ```
 
-# testing function on my own, non enterprise repo
+# testing function on my own, non-enterprise repo
 ```{r}
 # resetting the keyring to my own PAT
 kb$keyring_unlock("Git_Credentials")
 kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = "Git_Credentials")
 kb$keyring_lock("Git_Credentials")
 
-# # using gh() function
-# issues_gh <- gh("/repos/maggieklope/leaflet-tutorial/issues",
-#    .api_url = "https://api.github.com",
-#    owner = "maggieklope",
-#    repo = "leaflet-tutorial",
-#    .token = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"),
-#    state = "all",
-#    .limit = "all")
-
-# using my function
+# using function on test repo
 function_test(github_api_endpoint = "/repos/maggieklope/test-repo/issues",
               url = "https://api.github.com",
               repo_owner = "maggieklope",
