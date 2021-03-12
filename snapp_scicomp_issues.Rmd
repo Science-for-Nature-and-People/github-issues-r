@@ -167,12 +167,15 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
                   .token = PAT,
                   state = "all",
                   .limit = "all")
-  
-  # getting number of issues to set row
-  n_issues <- 1:length(issues_gh)
-  
-  # blank data frame
-  df_test <- data.frame()
+    
+    # exiting and returning message if repo has no issues
+    if(length(issues_gh) == 0) stop("there are no issues on repo")
+    
+    # getting number of issues to set row
+    n_issues <- 1:length(issues_gh)
+    
+    # blank data frame
+    df_test <- data.frame()
   
   # creating data frame
   for (i in n_issues) {
@@ -244,3 +247,4 @@ function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues"
               PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 
 ```
+
