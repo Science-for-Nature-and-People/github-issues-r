@@ -71,6 +71,9 @@ issues_gh <- gh(
    state = "all",
    .limit = "all")
 
+# # to see everything that could be added into a data frame
+# issues_gh[[1]]
+
 ```
 
 # 3) Create a dataframe from the gh object
@@ -79,6 +82,7 @@ I decided to do this in a loop:
 
 - For columns with missing values (ex: repos that have not been closed yet), I added in ifelse() statement because rbind will ignore NA values causing it to have a different length than the data frame
 - When there is more than one value (ex: multiple assignees & repo labels) I made it so that they are listed together in one cell
+- It might be too much information, but it can also pull the text from the issue
 
 ```{r}
 # getting number of issues to set row
@@ -209,9 +213,12 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
   ))
 
   }
-  
-  table <- datatable(df_temp,filter = 'top')
-  renderDT(table)
+    # this option will return a data frame
+    return(df_temp)
+
+    # # this option will reutrn a DT html table
+    # table <- datatable(df_temp,filter = 'top')
+    # return(table)
   }
 
 ```
@@ -233,7 +240,7 @@ kb$set(service = "Github_Enterprise_Token", username = "maggieklope", keyring = 
 kb$keyring_lock("Git_Credentials")
 
 # using function on test repo
-function_test(github_api_endpoint = "/repos/maggieklope/test-repo/issues",
+my_repo_test <- function_test(github_api_endpoint = "/repos/maggieklope/test-repo/issues",
               url = "https://api.github.com",
               repo_owner = "maggieklope",
               repo_name = "test-repo",
@@ -245,6 +252,5 @@ function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues"
               repo_owner = "maggieklope",
               repo_name = "leaflet-tutorial",
               PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
-
 ```
 

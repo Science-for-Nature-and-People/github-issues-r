@@ -1,7 +1,7 @@
 repo_num,title,creator,assignees,date_created,status,date_closed,labels,num_comments
 1,Batch processing of HYSPLIT model,brun,brun,2021-02-22,open,NA,wildfire,3
-2,List all the tasks we have done for SNAPP ,brun,mmklope,2021-01-28,open,NA,NA,6
-3,Debug the automated script to warn about new publications,brun,mmklope,2021-01-28,open,NA,NA,2
+2,List all the tasks we have done for SNAPP ,brun,mmklope,2021-01-28,open,NA,NA,7
+3,Debug the automated script to warn about new publications,brun,mmklope,2021-01-28,open,NA,NA,3
 4,Creating CRF Survey,robertsaldivar,robertsaldivar,2020-09-16,closed,2020-10-20,Climate Resilient Fisheries,11
 5,Create Zotero Pre-processing script,nathanhwangbo,"nathanhwangbo, robertsaldivar",2020-08-12,closed,2020-10-20,enhancement,6
 6,Research `reticulate`,brun,mmklope,2020-08-04,closed,2020-10-20,"Background task, wildfire",2
