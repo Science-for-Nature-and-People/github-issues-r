@@ -162,8 +162,7 @@ datatable(df_filtered)
 # this function assumes that the user has saved their token.  They can use the keyring package the way I did above or use their own and set it as the PAT argument
 
 function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
-  
-    issues_gh <- gh(github_api_endpoint,
+  issues_gh <- gh(endpoint = github_api_endpoint,
                   .api_url = url,
                   owner = repo_owner,
                   repo = repo_name,
@@ -171,53 +170,53 @@ function_test <- function(github_api_endpoint, url, repo_owner, repo_name, PAT){
                   state = "all",
                   .limit = "all")
     
-    # exiting and returning message if repo has no issues
-    if(length(issues_gh) == 0) stop("there are no issues on repo")
+  # # exiting and returning message if repo has no issues
+  # if(length(issues_gh) == 0) stop("there are no issues on repo")
     
-    # getting number of issues to set row
-    n_issues <- 1:length(issues_gh)
-    
-    # blank data frame
-    df_test <- data.frame()
+  # getting number of issues to set row
+  n_issues <- 1:length(issues_gh)
   
+  # blank data frame
+  df_test <- data.frame()
+
   # creating data frame
   for (i in n_issues) {
-
-  df_temp <- rbind(df_test, data.frame(
-    repo_num = i,
-    title = issues_gh[[i]]$title,
-    creator = issues_gh[[i]]$user$login,
-    assignees = ifelse(
-      test = is.null(issues_gh[[i]]$assignee$login), # using ifelse() because rbind will remove NA, so would get error of not having enough rows
-      yes = NA,
+  
+ df_test <- rbind(df_test, data.frame(
+   repo_num = i,
+   title = issues_gh[[i]]$title, 
+   creator = issues_gh[[i]]$user$login,
+   assignees = ifelse(
+      test = is.null(issues_gh[[i]]$assignee$login), 
+      yes = NA, 
       no = as.character(
-        as.data.frame(issues_gh[[i]]$assignees) %>%
-          dplyr::select(contains("login")) %>%
-          unite(col = "assignees", sep = ", "))
-    ),
-    date_created = as.Date(issues_gh[[i]]$created_at),
-    status = issues_gh[[i]]$state,
-    date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at),
-                         yes = NA,
-                         no = issues_gh[[i]]$closed_at) %>% as.Date(),
-    labels = ifelse(
-      test = length(issues_gh[[i]]$labels) == 0,
-      yes = NA,
+         as.data.frame(issues_gh[[i]]$assignees) %>% 
+         dplyr::select(contains("login")) %>% 
+         unite(col = "assignees", sep = ", "))
+      ),
+   date_created = as.Date(issues_gh[[i]]$created_at), 
+   status = issues_gh[[i]]$state,
+   date_closed = ifelse(test = is.null(issues_gh[[i]]$closed_at), 
+                        yes = NA, 
+                        no = issues_gh[[i]]$closed_at) %>% as.Date(),
+   labels = ifelse(
+      test = length(issues_gh[[i]]$labels) == 0, 
+      yes = NA, 
       no = as.character(
-        flatten_dfc(issues_gh[[i]]$labels) %>%
-          dplyr::select(contains("name")) %>%
-          unite(col = "labels", sep = ", "))
-    ),
-    num_comments = issues_gh[[i]]$comments
-  ))
+         flatten_dfc(issues_gh[[i]]$labels) %>% 
+         dplyr::select(contains("name")) %>% 
+         unite(col = "labels", sep = ", "))
+      ),
+   num_comments = issues_gh[[i]]$comments
+   ))
+ 
+}
+  # this option will return a data frame
+  return(df_test)
 
-  }
-    # this option will return a data frame
-    return(df_temp)
-
-    # # this option will reutrn a DT html table
-    # table <- datatable(df_temp,filter = 'top')
-    # return(table)
+  #   # # this option will reutrn a DT html table
+  #   # table <- datatable(df_temp,filter = 'top')
+  #   # return(table)
   }
 
 ```
@@ -243,7 +242,7 @@ my_repo_test <- function_test(github_api_endpoint = "/repos/maggieklope/test-rep
               url = "https://api.github.com",
               repo_owner = "maggieklope",
               repo_name = "test-repo",
-              PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
+              PAT = kb$get("PAT", keyring = "Git_Credentials"))
 
 # gets error when there are no issues, need to add some sort of a "this repo has no issues" response
 function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues",
