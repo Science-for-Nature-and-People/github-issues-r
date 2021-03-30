@@ -23,7 +23,6 @@ library(DT)
 1) Save PAT from github (user can use keyring package like I did, or save in .Renvirone, etc.)
 2) use gh package to grab the information
 3) Creat data frame from the gh object
-4) 
 
 # 1) creating a new keyring that store git credentials
 
