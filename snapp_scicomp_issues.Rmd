@@ -22,7 +22,7 @@ library(DT)
 # Steps:
 1) Save PAT from github (user can use keyring package like I did, or save in .Renvirone, etc.)
 2) use gh package to grab the information
-3) Creat data frame from the gh object
+3) Create data frame from the gh object
 
 # 1) creating a new keyring that store git credentials
 
@@ -252,4 +252,3 @@ function_test(github_api_endpoint = "/repos/maggieklope/leaflet-tutorial/issues"
               repo_name = "leaflet-tutorial",
               PAT = kb$get("Github_Enterprise_Token", keyring = "Git_Credentials"))
 ```
-
